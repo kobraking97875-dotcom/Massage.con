@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111816">
+<meta name="description" content="A considered massage and wellness experience in Ahmedabad. Book a visit at our studio or request an at-home appointment.">
+<title>Serene Touch — Private Wellness & Massage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--night:#111816;--deep:#19231f;--cream:#f4f1e9;--paper:#fbfaf6;--gold:#c8ad7d;--gold2:#e1d0ad;--muted:#aeb9b1;--ink:#26332d;--line:rgba(200,173,125,.28)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--night);color:#f8f6f0;font-family:"DM Sans",Arial,sans-serif}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.shell{width:min(1160px,90%);margin:auto}
+.topline{height:34px;background:#0c110f;color:#c8cfc9;font-size:10px;letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;justify-content:center}
+header{position:sticky;top:0;z-index:10;background:rgba(17,24,22,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav{height:82px;display:flex;align-items:center;justify-content:space-between;gap:25px}.logo{font:23px "Playfair Display",serif;letter-spacing:2px}.logo small{display:block;font:9px "DM Sans";letter-spacing:4px;color:var(--gold);margin-top:3px}.navlinks{display:flex;gap:29px;font-size:12px;color:#d1d8d2}.navlinks a:hover{color:var(--gold2)}.navcta{border:1px solid var(--gold);padding:12px 19px;color:var(--gold2);font-size:11px;letter-spacing:1px;text-transform:uppercase}
+.hero{min-height:680px;display:flex;align-items:center;position:relative;overflow:hidden;background:linear-gradient(90deg,rgba(9,16,13,.92) 0%,rgba(9,16,13,.68) 47%,rgba(9,16,13,.15) 100%),url("https://images.unsplash.com/photo-1540555700478-4be289fbecec?auto=format&fit=crop&w=2000&q=90") center/cover}
+.hero:after{content:"";position:absolute;inset:18px;border:1px solid rgba(225,208,173,.24);pointer-events:none}.hero-content{position:relative;z-index:1;max-width:660px;padding:110px 0}.kicker{color:var(--gold2);font-size:10px;letter-spacing:4px;text-transform:uppercase}.hero h1{font:clamp(52px,7vw,88px)/1.04 "Playfair Display",serif;font-weight:400;margin:22px 0}.hero p{color:#d7ddd7;font-size:15px;line-height:1.9;max-width:490px}.actions{display:flex;gap:13px;flex-wrap:wrap;margin-top:34px}.goldbtn,.outlinebtn{display:inline-flex;align-items:center;justify-content:center;padding:15px 22px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;border:1px solid var(--gold);transition:.2s}.goldbtn{background:var(--gold);color:#17211b}.goldbtn:hover{background:var(--gold2)}.outlinebtn{color:#f8f6f0}.outlinebtn:hover{background:rgba(255,255,255,.1)}
+.trustbar{background:#1b2721;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.trustgrid{display:grid;grid-template-columns:repeat(3,1fr);padding:23px 0;text-align:center}.trustgrid div+div{border-left:1px solid var(--line)}.trustgrid strong{display:block;color:var(--gold2);font:17px "Playfair Display"}.trustgrid span{display:block;color:#aeb9b1;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-top:5px}
+section{padding:105px 0}.light{background:var(--cream);color:var(--ink)}.sectiontag{text-transform:uppercase;letter-spacing:3px;color:#9b8052;font-size:10px}.sectiontitle{font:clamp(36px,4.5vw,56px)/1.12 "Playfair Display",serif;font-weight:400;margin:15px 0}.intro{max-width:600px;color:#68756d;line-height:1.9;font-size:14px}.center{text-align:center}.center .intro{margin:0 auto}.services{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:48px}.service{background:#fff;border:1px solid #e6e0d3;padding:32px 27px;min-height:270px;position:relative}.service .num{font:13px "Playfair Display";color:#aa8d5e}.service h3{font:25px "Playfair Display";font-weight:400;margin:24px 0 12px}.service p{font-size:13px;line-height:1.8;color:#718077}.service .more{position:absolute;bottom:27px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8c7044}
+.experience{display:grid;grid-template-columns:1fr 1fr;gap:75px;align-items:center}.experience-img{min-height:520px;background:url("https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=1200&q=90") center/cover;position:relative}.experience-img:after{content:"";position:absolute;inset:16px;border:1px solid rgba(225,208,173,.65)}.experience-copy p{color:#b8c2bb;line-height:1.95;font-size:14px}.points{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin:28px 0}.point{border-top:1px solid var(--line);padding-top:13px;color:#e1e5df;font-size:12px}.point span{color:var(--gold);margin-right:8px}
+.booking{background:#202d26}.booking-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:65px;align-items:start}.booking-copy p{color:#b9c4bc;line-height:1.9;font-size:14px}.booking-note{border-left:2px solid var(--gold);padding:13px 17px;color:#c7d0c9;font-size:12px;margin-top:28px}
+form{background:var(--paper);color:var(--ink);padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:17px;box-shadow:0 20px 60px rgba(0,0,0,.16)}label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#59665e;font-weight:700}input,select,textarea{display:block;width:100%;margin-top:8px;padding:13px 12px;border:1px solid #dddcd3;background:white;color:#26332d;border-radius:0;outline:none;font-size:13px}input:focus,select:focus,textarea:focus{border-color:#9b8052}textarea{min-height:92px;resize:vertical}.full{grid-column:1/-1}.formbtn{grid-column:1/-1;background:var(--night);color:var(--gold2);border:1px solid var(--gold);padding:16px;text-transform:uppercase;letter-spacing:1.5px;font-size:10px;cursor:pointer}.formhint{grid-column:1/-1;font-size:10px;color:#7c877f;line-height:1.6;margin:0}
+.contactgrid{display:grid;grid-template-columns:1fr 1fr;gap:50px}.contactbox{border-top:1px solid var(--line);padding:22px 0}.contactbox span{font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase}.contactbox p{color:#d0d8d1;font-size:14px}
+footer{background:#0c110f;padding:34px 0;color:#aab5ad;font-size:11px}.footerrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footerbrand{font:20px "Playfair Display";color:#f5f1e8}
+@media(max-width:800px){.nav{height:70px}.navlinks{display:none}.hero{min-height:610px}.hero-content{padding:85px 0}.services{grid-template-columns:1fr}.experience,.booking-layout,.contactgrid{grid-template-columns:1fr;gap:35px}.experience-img{min-height:350px}.trustgrid strong{font-size:14px}.trustgrid span{font-size:8px}section{padding:75px 0}}
+@media(max-width:520px){.navcta{padding:10px 12px;font-size:9px}.logo{font-size:19px}.hero h1{font-size:51px}.trustgrid{padding:18px 0}.trustgrid span{letter-spacing:.5px}.points{grid-template-columns:1fr}form{padding:22px;grid-template-columns:1fr}.full,.formbtn,.formhint{grid-column:auto}.hero:after{inset:9px}}
+</style>
+</head>
+<body>
+<div class="topline">A private wellness experience · Ahmedabad, India</div>
+<header><div class="shell nav">
+  <a class="logo" href="#">SERENE TOUCH<small>MASSAGE & WELLNESS</small></a>
+  <nav class="navlinks"><a href="#services">Treatments</a><a href="#experience">Our Approach</a><a href="#booking">Appointments</a><a href="#contact">Contact</a></nav>
+  <a class="navcta" href="#booking">Reserve a Visit</a>
+</div></header>
+<main>
+<section class="hero"><div class="shell"><div class="hero-content">
+  <div class="kicker">Restore your sense of balance</div>
+  <h1>Make space<br>to feel well.</h1>
+  <p>A thoughtful massage and wellness experience, shaped around your comfort. Visit our studio or request a private appointment at home in selected areas of Ahmedabad.</p>
+  <div class="actions"><a class="goldbtn" href="#booking">Request an appointment</a><a class="outlinebtn" href="#services">Explore treatments</a></div>
+</div></div></section>
+<div class="trustbar"><div class="shell trustgrid">
+  <div><strong>Personalised</strong><span>Care shaped around you</span></div>
+  <div><strong>Two ways to unwind</strong><span>Studio or home visit</span></div>
+  <div><strong>By appointment</strong><span>Time reserved for you</span></div>
+</div></div>
+<section class="light" id="services"><div class="shell">
+  <div class="center"><div class="sectiontag">The treatment menu</div><h2 class="sectiontitle">A moment that is yours.</h2><p class="intro">Explore our wellness experiences. Final treatment details, duration and pricing will be confirmed with you before your appointment.</p></div>
+  <div class="services">
+    <article class="service"><div class="num">01 / UNWIND</div><h3>Relaxation Massage</h3><p>A gentle, calming wellness session created to help you slow down and enjoy a restorative pause.</p><div class="more">₹1,499 · Book this service ↗</div></article>
+    <article class="service"><div class="num">02 / RESTORE</div><h3>Deep Tissue Massage</h3><p>A focused massage option with firmer pressure preferences discussed with you in advance.</p><div class="more">₹1,499 · Book this service ↗</div></article>
+    <article class="service"><div class="num">03 / REBALANCE</div><h3>Personal Wellness</h3><p>A considered session tailored to your comfort, preferences and selected wellness goals.</p><div class="more">₹1,499 · Book this service ↗</div></article>
+    <article class="service"><div class="num">04 / AT-HOME EXPERIENCE</div><h3>Full Body Massage · Home Visit</h3><p>A one-hour full-body massage appointment at your home, subject to area and schedule confirmation.</p><div class="more">₹2,999 · 1 hour · Book this service ↗</div></article>
+  </div>
+</div></section>
+<section id="experience"><div class="shell experience">
+  <div class="experience-img" role="img" aria-label="Serene spa treatment setting"></div>
+  <div class="experience-copy"><div class="sectiontag">The Serene Touch approach</div><h2 class="sectiontitle">Your time. Your comfort. Your choice.</h2>
+    <p>We believe a good wellness experience begins with listening. Choose an appointment at our studio or request a home visit. Our team will confirm availability, service details and any applicable travel charges before accepting your booking.</p>
+    <div class="points"><div class="point"><span>✦</span>Appointment-led service</div><div class="point"><span>✦</span>Studio appointments</div><div class="point"><span>✦</span>Home visit requests</div><div class="point"><span>✦</span>Clear booking confirmation</div></div>
+    <a class="outlinebtn" href="#booking">Plan your visit</a>
+  </div>
+</div></section>
+<section class="booking" id="booking"><div class="shell booking-layout">
+  <div class="booking-copy"><div class="sectiontag">Reservations</div><h2 class="sectiontitle">Let us arrange<br>your visit.</h2>
+    <p>Share a few details and your preferred appointment. For home visits, please include your complete address and PIN code so the team can check service availability.</p>
+    <div class="booking-note">COD booking: ₹120 advance is required to confirm the appointment. The remaining service amount is payable at the appointment. Full online payment is another option. The ₹120 advance is a booking deposit and must be collected through the business's verified payment account.</div>
+  </div>
+  <form id="bookingForm">
+    <div><label for="name">Full name</label><input id="name" required placeholder="Your name"></div>
+    <div><label for="phone">Mobile number</label><input id="phone" required inputmode="tel" placeholder="+91"></div>
+    <div><label for="service">Choose treatment</label><select id="service" required><option value="">Select a treatment</option><option value="Relaxation Massage — ₹1,499">Relaxation Massage — ₹1,499</option><option value="Deep Tissue Massage — ₹1,499">Deep Tissue Massage — ₹1,499</option><option value="Personal Wellness — ₹1,499">Personal Wellness — ₹1,499</option><option value="Full Body Massage Home Visit (1 hour) — ₹2,999">Full Body Massage Home Visit (1 hour) — ₹2,999</option></select></div>
+    <div><label for="type">Appointment setting</label><select id="type" required><option value="">Choose one</option><option>At the studio</option><option>Home visit</option></select></div>
+    <div><label for="date">Preferred date</label><input id="date" type="date" required></div>
+    <div><label for="time">Preferred time</label><input id="time" type="time" required></div>
+    <div><label for="payment">Payment preference</label><select id="payment" required><option value="">Select payment</option><option>COD — ₹120 advance, remaining amount at appointment</option><option>Pay full amount online (UPI / online gateway)</option></select></div>
+    <div><label for="pincode">PIN code</label><input id="pincode" inputmode="numeric" maxlength="6" placeholder="6-digit PIN code" required></div>
+    <div class="full"><label for="address">Full address</label><textarea id="address" required placeholder="Flat / house, street, area, landmark, city"></textarea></div>
+    <div class="full"><label for="notes">Anything we should know? (optional)</label><textarea id="notes" placeholder="Your preferences or questions"></textarea></div>
+    <button class="formbtn" type="submit">Submit appointment request →</button>
+    <p class="formhint">Prices shown are the rates provided for this website setup. The booking form is still a demo and does not save requests or collect the ₹120 advance yet. Connect a secure booking backend and verified payment gateway before launch.</p>
+  </form>
+</div></section>
+<section id="contact"><div class="shell contactgrid">
+  <div><div class="sectiontag">Get in touch</div><h2 class="sectiontitle">We would love<br>to welcome you.</h2><p class="intro" style="color:#b8c2bb">Contact details and exact studio address will be added after the business confirms them.</p></div>
+  <div><div class="contactbox"><span>Location</span><p>Ahmedabad, Gujarat, India<br><small>Exact address to be confirmed</small></p></div><div class="contactbox"><span>Appointments</span><p>By advance booking<br>Business phone and email to be added</p></div><div class="contactbox"><span>Home visits</span><p>Selected Ahmedabad areas, subject to availability and confirmation.</p></div></div>
+</div></section>
+</main>
+<footer><div class="shell footerrow"><div><div class="footerbrand">SERENE TOUCH</div><div>Massage & Wellness · Ahmedabad</div></div><div>© <span id="year"></span> Serene Touch. All rights reserved.</div><div>Privacy · Terms · Booking Policy</div></div></footer>
+<script>
+document.getElementById('year').textContent=new Date().getFullYear();
+document.getElementById('bookingForm').addEventListener('submit',function(e){
+ e.preventDefault();
+ alert('Thank you. This is a preview only: your request has not been sent or saved, and no advance payment has been collected. Connect the booking system and verified payment account before launch.');
+});
+</script>
+</body>
+</html>
