@@ -260,7 +260,7 @@ footer { background: rgb(12, 17, 15); padding: 34px 0px; color: rgb(170, 181, 17
 <section class="booking" id="booking"><div class="shell booking-layout">
   <div class="booking-copy"><div class="sectiontag">Reservations</div><h2 class="sectiontitle">Let us arrange<br>your visit.</h2>
     <p>Share a few details and your preferred appointment. For home visits, please include your complete address and PIN code so the team can check service availability.</p>
-    <div class="booking-note">COD booking: ·120 advance is required to confirm the appointment. The remaining service amount is payable at the appointment. Full online payment is another option. The ·120 advance is a booking deposit and must be collected through the business's verified payment account.</div>
+    <div class="booking-note">Choose COD with a ₹120 advance, scan the UPI QR to pay the full amount, or use Razorpay Checkout. UPI QR payments are manually verified from the UTR/reference number; Razorpay payments are verified by the server.</div>
   </div>
   <form id="bookingForm">
     <div><label for="name">Full name</label><input id="name" required placeholder="Your name"></div>
@@ -275,12 +275,25 @@ footer { background: rgb(12, 17, 15); padding: 34px 0px; color: rgb(170, 181, 17
     <div><label for="type">Appointment setting</label><select id="type" required><option value="">Choose one</option><option value="studio">At the studio</option><option value="home_visit">Home visit</option></select></div>
     <div><label for="date">Preferred date</label><input id="date" type="date" required></div>
     <div><label for="time">Preferred time</label><input id="time" type="time" required></div>
-    <div><label for="payment">Payment preference</label><select id="payment" required><option value="">Select payment</option><option value="cod_advance">COD — ₹120 advance, remaining amount at appointment</option><option value="online_full" disabled>Full online payment — coming soon</option></select></div>
+    <div><label for="payment">Payment preference</label><select id="payment" required><option value="">Select payment</option><option value="cod_advance">COD — ₹120 advance, balance at appointment</option>
+      <option value="upi_qr">UPI QR Scan — Pay Full Amount</option>
+      <option value="razorpay">Razorpay — Pay Full Amount</option></select></div>
     <div><label for="pincode">PIN code</label><input id="pincode" inputmode="numeric" maxlength="6" placeholder="6-digit PIN code" required></div>
     <div class="full"><label for="address">Full address</label><textarea id="address" required placeholder="Flat / house, street, area, landmark, city"></textarea></div>
     <div class="full"><label for="notes">Anything we should know? (optional)</label><textarea id="notes" placeholder="Your preferences or questions"></textarea></div>
+    <div class="full" id="upiPaymentPanel" style="display:none;background:#fff;padding:22px;border:1px solid #d9d2c2;color:#26332d">
+      <h3 style="font-family:'Playfair Display',serif;font-size:24px;margin:0 0 8px">Scan &amp; Pay with UPI</h3>
+      <p style="font-size:13px;line-height:1.6">Scan this QR using another phone, or tap the UPI button on this phone. Enter the exact total shown below.</p>
+      <img src="razorpay-qr.png" alt="UPI payment QR for VIRJUL KUMAR" style="display:block;width:min(260px,100%);height:auto;margin:16px auto;border:1px solid #ddd;padding:8px;background:#fff">
+      <p style="text-align:center;font-weight:700;margin:8px 0">Payee: VIRJUL KUMAR</p>
+      <p style="text-align:center;font-size:12px;word-break:break-all">UPI ID: virjulkumar638597.rzp@rxairtel</p>
+      <p style="text-align:center;font-size:22px;font-weight:700" id="upiAmount">Amount: ₹—</p>
+      <p style="text-align:center"><a class="goldbtn" id="upiDeepLink" href="#" style="color:#17211b">Open UPI App</a></p>
+      <div><label for="upiReference">UPI UTR / Transaction Reference</label><input id="upiReference" placeholder="Enter UTR after paying"></div>
+      <p style="font-size:11px;color:#68756d">This QR is a static QR and does not automatically confirm payment. Enter the UTR after paying. The business must verify it in its bank/Razorpay records before confirming the booking.</p>
+    </div>
     <button class="formbtn" type="submit">Submit appointment request →</button>
-    <p class="formhint">Your booking request will be saved after the database is configured. ₹120 advance collection is not automated yet; the business must verify the payment.</p>
+    <p class="formhint">Full UPI QR payments require manual UTR verification. Razorpay Checkout requires the Edge Functions and Razorpay secrets to be configured. Never treat a screenshot or customer-entered UTR as proof of payment.</p>
   </form>
 </div></section>
 <section id="contact"><div class="shell contactgrid">
@@ -292,44 +305,167 @@ footer { background: rgb(12, 17, 15); padding: 34px 0px; color: rgb(170, 181, 17
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
-const sb = window.supabase.createClient("https://ksyyfyftnd1imi1ikokgj.supabase.co", "sb_publishable_g503xte1B9sDzqxiJ7gt9g_-jnO75Kc");
+
+const sb = window.supabase.createClient(
+  "https://ksyyfyftnd1imi1ikokgj.supabase.co",
+  "sb_publishable_g503xte1B9sDzqxiJ7gt9g_-jnO75Kc"
+);
+
+const prices = {
+  relaxation: 1499,
+  deep_tissue: 1499,
+  personal_wellness: 1499,
+  full_body_home: 2999
+};
+const serviceLabels = {
+  relaxation: "Relaxation Massage",
+  deep_tissue: "Deep Tissue Massage",
+  personal_wellness: "Personal Wellness",
+  full_body_home: "Full Body Massage Home Visit (1 hour)"
+};
+const paymentSelect = document.getElementById('payment');
+const upiPanel = document.getElementById('upiPaymentPanel');
+
+function updatePaymentPanel() {
+  const service = document.getElementById('service').value;
+  const method = paymentSelect.value;
+  const amount = prices[service] || 0;
+  upiPanel.style.display = method === 'upi_qr' ? 'block' : 'none';
+  document.getElementById('upiAmount').textContent = 'Amount: ₹' + amount.toLocaleString('en-IN');
+  const upi = new URLSearchParams({
+    pa: 'virjulkumar638597.rzp@rxairtel',
+    pn: 'VIRJUL KUMAR',
+    am: String(amount),
+    cu: 'INR',
+    tn: 'Serene Touch booking'
+  });
+  document.getElementById('upiDeepLink').href = 'upi://pay?' + upi.toString();
+}
+paymentSelect.addEventListener('change', updatePaymentPanel);
+document.getElementById('service').addEventListener('change', updatePaymentPanel);
+
 document.getElementById('bookingForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const v = id => document.getElementById(id).value.trim();
-  const phone = v('phone').replace(/\\s+/g, '');
-  if (!/^\\+?[0-9]{10,13}$/.test(phone)) return alert('Please enter a valid mobile number.');
-  if (!/^\\d{6}$/.test(v('pincode'))) return alert('Please enter a valid 6-digit PIN code.');
-  if (v('service') === 'full_body_home' && v('type') !== 'home_visit') return alert('Full Body Massage ₹2,999 is available as a Home Visit only.');
-  if (v('payment') !== 'cod_advance') return alert('Online payment is not enabled yet. Please choose COD with ₹120 advance.');
+  const phone = v('phone').replace(/[\s()-]/g, '');
+  const phoneDigits = phone.startsWith('+') ? phone.slice(1) : phone;
+  if (!/^[0-9]{10}$/.test(phoneDigits) && !/^91[0-9]{10}$/.test(phoneDigits)) {
+    alert('Enter a valid 10-digit Indian mobile number, or 91 followed by 10 digits.');
+    return;
+  }
+  if (!/^[0-9]{6}$/.test(v('pincode'))) {
+    alert('Please enter a valid 6-digit PIN code.');
+    return;
+  }
+  const service = v('service');
+  const appointmentType = v('type');
+  const method = v('payment');
+  if (!prices[service]) return alert('Please select a treatment.');
+  if (service === 'full_body_home' && appointmentType !== 'home_visit') {
+    return alert('Full Body Massage ₹2,999 is available as a Home Visit only.');
+  }
+  if (!method) return alert('Please select a payment method.');
+  if (method === 'upi_qr' && !v('upiReference')) {
+    return alert('After paying with UPI, enter the UTR / transaction reference shown by your UPI app.');
+  }
+
   const bookingCode = 'ST-' + crypto.randomUUID().replace(/-/g,'').slice(0,10).toUpperCase();
   const payload = {
     booking_code: bookingCode,
     customer_name: v('name'),
-    phone,
-    service_code: v('service'),
-    appointment_type: v('type'),
+    phone: phone,
+    service_code: service,
+    appointment_type: appointmentType,
     appointment_date: v('date'),
     appointment_time: v('time'),
-    payment_method: 'cod_advance',
+    payment_method: method,
     address: v('address'),
     pincode: v('pincode'),
     notes: v('notes') || null
   };
   const button = this.querySelector('button[type="submit"]');
-  button.disabled = true; button.textContent = 'Submitting…';
+  button.disabled = true;
+  button.textContent = 'Saving booking…';
   try {
     const {error} = await sb.from('massage_bookings').insert(payload);
     if (error) throw error;
-    alert('Booking request saved. Reference: ' + bookingCode + '. ₹120 advance is pending; the business must verify it before confirming your appointment.');
-    this.reset();
-  } catch(err) {
+
+    if (method === 'cod_advance') {
+      alert('Booking request saved. Reference: ' + bookingCode +
+        '. ₹120 advance is due; remaining ₹' + (prices[service] - 120).toLocaleString('en-IN') +
+        ' is payable at the appointment. The team must verify the advance.');
+      this.reset();
+      updatePaymentPanel();
+      return;
+    }
+
+    if (method === 'upi_qr') {
+      const {error: upiError} = await sb.functions.invoke('submit-upi-reference', {
+        body: {booking_code: bookingCode, utr: v('upiReference')}
+      });
+      if (upiError) throw upiError;
+      alert('Booking saved. Reference: ' + bookingCode +
+        '. UPI reference submitted for manual verification. Do not consider the booking confirmed until the business verifies the payment.');
+      this.reset();
+      updatePaymentPanel();
+      return;
+    }
+
+    if (method === 'razorpay') {
+      const {data: orderData, error: orderError} = await sb.functions.invoke('create-razorpay-order', {
+        body: {booking_code: bookingCode}
+      });
+      if (orderError) throw orderError;
+      if (!orderData || !orderData.order_id || !orderData.key_id) {
+        throw new Error('Razorpay order setup is incomplete. Configure the Razorpay Edge Function secrets.');
+      }
+      const options = {
+        key: orderData.key_id,
+        amount: orderData.amount,
+        currency: 'INR',
+        name: 'Serene Touch',
+        description: serviceLabels[service],
+        order_id: orderData.order_id,
+        prefill: {name: v('name'), contact: phone},
+        theme: {color: '#c8ad7d'},
+        handler: async function(response) {
+          const {error: verifyError} = await sb.functions.invoke('verify-razorpay-payment', {
+            body: {
+              booking_code: bookingCode,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature
+            }
+          });
+          if (verifyError) {
+            alert('Payment was submitted, but server verification did not complete. Do not retry immediately. Contact the business with payment ID: ' + response.razorpay_payment_id);
+            return;
+          }
+          alert('Payment verified successfully. Booking reference: ' + bookingCode);
+          document.getElementById('bookingForm').reset();
+          updatePaymentPanel();
+        },
+        modal: {ondismiss: function() {
+          alert('Checkout closed. Your booking is still pending payment.');
+        }}
+      };
+      const checkout = new Razorpay(options);
+      checkout.on('payment.failed', function(response) {
+        alert('Payment failed: ' + (response.error.description || 'Please try again.'));
+      });
+      checkout.open();
+    }
+  } catch (err) {
     console.error(err);
-    alert('Booking could not be saved: ' + (err.message || 'Please try again.'));
+    alert('Could not complete the booking/payment setup: ' + (err.message || 'Please try again.'));
   } finally {
-    button.disabled = false; button.textContent = 'Submit appointment request →';
+    button.disabled = false;
+    button.textContent = 'Submit appointment request →';
   }
 });
+
 </script>
 </body></html>
